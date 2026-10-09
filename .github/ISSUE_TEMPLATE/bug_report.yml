@@ -1,0 +1,69 @@
+name: Bug report
+description: Report a reproducible bug in any StellarRail repo
+labels: [bug, triage]
+body:
+  - type: dropdown
+    id: repo
+    attributes:
+      label: Affected repository
+      options:
+        - stellarrail-api
+        - stellarrail-contracts
+        - stellarrail-web
+        - .github (org docs/defaults)
+        - not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: Tag (e.g. 1.0.0-rc1) or commit SHA + branch
+      placeholder: e.g. stellarrail-api@1.0.0-rc1 (abc1234 on main)
+    validations:
+      required: true
+  - type: dropdown
+    id: network
+    attributes:
+      label: Stellar network (if applicable)
+      options:
+        - testnet
+        - mainnet
+        - standalone / local sandbox
+        - n/a (web/docs only)
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal repro — commands, requests, or clicks
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs. actual
+      placeholder: |
+        Expected: ...
+        Actual: ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / evidence
+      description: Redact secrets, keys, JWTs, and personal data
+      render: text
+      placeholder: Paste relevant logs, tx hashes, screenshots links
+  - type: checkboxes
+    id: security
+    attributes:
+      label: Security check
+      options:
+        - label: This is NOT a security vulnerability (security issues go to security@stellarrail.example per SECURITY.md)
+          required: true
