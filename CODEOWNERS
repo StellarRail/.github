@@ -1,0 +1,6 @@
+# Default owners for the `.github` repo (org defaults).
+# Replace `@StellarRail/core` with the actual GitHub team when it exists.
+* @StellarRail/core
+/profile/ @StellarRail/core
+/docs/ @StellarRail/core
+/.github/ @StellarRail/core
