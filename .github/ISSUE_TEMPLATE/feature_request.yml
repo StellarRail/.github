@@ -1,0 +1,45 @@
+name: Feature request
+description: Propose a new feature or improvement
+labels: [enhancement, triage]
+body:
+  - type: dropdown
+    id: repo
+    attributes:
+      label: Target repository
+      options:
+        - stellarrail-api
+        - stellarrail-contracts
+        - stellarrail-web
+        - .github (org docs/defaults)
+        - cross-cutting (multiple repos)
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: Who is affected and what hurts today?
+      placeholder: As an operator/approver/admin, I need … because …
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Desired behavior, API/UX sketch, alternatives considered
+    validations:
+      required: true
+  - type: checkboxes
+    id: contract
+    attributes:
+      label: Contract impact
+      options:
+        - label: This does NOT change the frozen v1 contract interface (or I have read docs/adr/ and will file an ADR)
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority guess
+      options:
+        - nice-to-have
+        - important
+        - critical for pilot/GA
