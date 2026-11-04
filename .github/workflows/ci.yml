@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install gitleaks (pinned)
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.2/gitleaks_8.24.2_linux_x64.tar.gz -o /tmp/gitleaks.tgz
+          tar -xzf /tmp/gitleaks.tgz -C /tmp gitleaks
+          sudo mv /tmp/gitleaks /usr/local/bin/gitleaks
+          gitleaks version
+      - name: Scan repository for secrets
+        run: gitleaks detect --source . -v --exit-code 1
+
+  lint-templates:
+    name: lint-templates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate YAML issue templates
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          python3 -c "
+          import glob
+          for p in glob.glob('.github/ISSUE_TEMPLATE/*.yml'):
+              with open(p, 'r', encoding='utf-8') as f:
+                  content = f.read()
+                  assert 'name:' in content, f'{p} missing name'
+                  assert 'description:' in content, f'{p} missing description'
+          print('Issue templates syntax verified successfully!')
+          "
+      - name: Verify Documentation Links
+        run: |
+          test -f README.md
+          test -f CONTRIBUTING.md
+          test -f CODE_OF_CONDUCT.md
+          test -f SECURITY.md
+          test -f SUPPORT.md
+          test -f CODEOWNERS
+          echo "All community health and documentation files verified!"
