@@ -34,8 +34,10 @@ jobs:
           python-version: "3.11"
       - run: |
           python3 -c "
-          import glob
+          import glob, os
           for p in glob.glob('.github/ISSUE_TEMPLATE/*.yml'):
+              if os.path.basename(p) == 'config.yml':
+                  continue
               with open(p, 'r', encoding='utf-8') as f:
                   content = f.read()
                   assert 'name:' in content, f'{p} missing name'
